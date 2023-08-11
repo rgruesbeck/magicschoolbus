@@ -29,7 +29,7 @@ class Node extends HTMLElement {
   }
 
   // write message
-  write(...data) {
+  input(...data) {
     console.log('node: write messages', message);
     this._write('write', ...data);
   }
