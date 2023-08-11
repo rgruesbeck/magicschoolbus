@@ -19,8 +19,8 @@ class Pipe extends HTMLElement {
     const { input, output } = conn;
     const read = listen.bind(input);
     const write = send.bind(output);
-    this.close = read('readout', (...data) => {
-      write(...data);
+    this.close = read('write', (...data) => {
+      write('read', ...data);
     });
   }
 

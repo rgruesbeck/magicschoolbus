@@ -20,3 +20,4 @@ export const listen = (topic, callBack) => {
       this.removeEventListener(topic, wrapper);
     };
 }
+
