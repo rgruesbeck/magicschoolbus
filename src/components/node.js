@@ -1,4 +1,7 @@
-import { listen, send } from '../utils.js';
+import { send, receive } from '../utils.js';
+
+// eval in a context
+// https://stackoverflow.com/questions/8403108/calling-eval-in-particular-context
 
 // Node has an input and an output
 // reads intput with 'read' events
@@ -7,7 +10,7 @@ export class Node extends HTMLElement {
   constructor() {
     super();
     this._id = `${Math.random().toString(16).slice(2)}`;
-    this._read = listen.bind(this);
+    this._read = receive.bind(this);
     this._write = send.bind(this);
     this.close = this._read('read', (...data) => {
       this.read(...data);

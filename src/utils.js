@@ -7,7 +7,7 @@ export const send = (topic, ...rest) => {
   this.dispatchEvent(event);
 }
 
-export const listen = (topic, callBack) => {
+export const receive = (topic, callBack) => {
     // create wrapper for callback
     const wrapper = (event) => {
       const { detail } = event;
