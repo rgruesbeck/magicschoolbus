@@ -1,8 +1,7 @@
-body {
-  background-color: #fff;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-node-c {
-  padding: 1em;
-  border: solid red;
+body {
+  background-color: #ebe6fa;
 }

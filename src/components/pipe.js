@@ -1,5 +1,15 @@
 import { send, receive } from '../utils.js';
 
+// https://www.sitepoint.com/html5-svg-cubic-curves/
+//
+const template = document.createElement('template');
+template.innerHTML = `
+  <style> @import "http://localhost:8000/style.css" </style>
+  <svg>
+    <path d="M100,250 C100,100 400,100 400,250 S700,400 700,250" />
+  </svg>
+`;
+
 // Pipe connects 2 nodes in a one way connection
 // connects 'write' events on node A to 'read' events on node B
 export class Pipe extends HTMLElement {
@@ -10,9 +20,11 @@ export class Pipe extends HTMLElement {
   }
 
   connectedCallback() {
+    window.pipe = this;
     this.setAttribute('id', this._id);
     this.innerText = "pipe";
-    window.pipe = this;
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   disconnectedCallback() {

@@ -35,6 +35,7 @@ const bootstrap = () => {
   console.log(bus, nodea, nodeb, pipe);
   pipe.connect({ input: nodea, output: nodeb });
   nodea.write(2, 10);
+  window.nodea = nodea;
 }
 
 setTimeout(() => {
