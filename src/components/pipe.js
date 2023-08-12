@@ -1,8 +1,7 @@
 import { listen, send } from '../utils.js';
 
-// Pipe has an input and output
-// writing to the pipe is done by writing to its input
-// when the pipe is writen too it, then writes to its output
+// Pipe connects 2 nodes in a one way connection
+// connects 'write' events on node A to 'read' events on node B
 class Pipe extends HTMLElement {
 
   constructor() {
@@ -13,6 +12,10 @@ class Pipe extends HTMLElement {
   connectedCallback() {
     this.setAttribute('id', this._id);
     this.innerText = "pipe";
+  }
+
+  disconnectedCallback() {
+    this.disconnect();
   }
 
   connect(conn) {
@@ -28,3 +31,4 @@ class Pipe extends HTMLElement {
     this.close && this.close();
   }
 }
+

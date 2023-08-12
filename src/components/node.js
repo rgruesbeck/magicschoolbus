@@ -1,9 +1,9 @@
 import { listen, send } from '../utils.js';
 
 // Node has an input and an output
-// writing to the node is done by writing to its input
-// when a node is done with its operation it writes to its output
-class Node extends HTMLElement {
+// reads intput with 'read' events
+// writes output with 'write' events
+export class Node extends HTMLElement {
   constructor() {
     super();
     this._id = `${Math.random().toString(16).slice(2)}`;
@@ -29,10 +29,9 @@ class Node extends HTMLElement {
   }
 
   // write message
-  input(...data) {
-    console.log('node: write messages', message);
+  write(...data) {
+    console.log('node: write', ...data);
     this._write('write', ...data);
   }
 }
 
-export default Node;

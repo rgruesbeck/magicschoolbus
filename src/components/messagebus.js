@@ -1,3 +1,4 @@
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks
 
 class MessageBus extends HTMLElement {
   constructor() {
@@ -6,7 +7,10 @@ class MessageBus extends HTMLElement {
   }
 
   connectedCallback() {
-    window.bus = this;
+    //window.bus = this;
+  }
+
+  disconnectedCallback() {
   }
 
   listen(topic, callBack) {

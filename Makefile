@@ -1,5 +1,5 @@
 default:
-	npx parcel src/index.html
+	find src -type f | entr -r -s 'npx webpack build --config webpack.config.js --mode development'
 
 old:
-	find . -type f | entr -s 'python3 -m http.server'
+	find src -type f | entr -s 'python3 -t http.server --directory .'
