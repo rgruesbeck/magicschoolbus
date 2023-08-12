@@ -11,8 +11,8 @@
  */
 
 import MessageBus from './components/messagebus.js'
-import Pipe from './components/pipe.js'
-import Node from './components/node.js'
+import { Pipe } from './components/pipe.js'
+import { Node } from './components/node.js'
 
 const bootstrap = () => {
   customElements.define('c-bus', MessageBus);

@@ -10,16 +10,25 @@ export class Node extends HTMLElement {
   constructor() {
     super();
     this._id = `${Math.random().toString(16).slice(2)}`;
-    this._read = receive.bind(this);
-    this._write = send.bind(this);
-    this.close = this._read('read', (...data) => {
-      this.read(...data);
-    });
+    this.self = this;
   }
 
   connectedCallback() {
     this.setAttribute('id', this._id);
     this.innerText = "node";
+
+    const read = receive.bind(this.self);
+    const close = read('read', (...data) => {
+      this.read(...data);
+    });
+
+    /*
+    const read = receive.bind(this);
+    this.close = read('read', (...data) => {
+      this.read(...data);
+    });
+    this._write = send.bind(this);
+    */
   }
 
   disconnectedCallback() {
