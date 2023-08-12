@@ -2,16 +2,17 @@ import { send, receive } from '../utils.js';
 
 // Pipe connects 2 nodes in a one way connection
 // connects 'write' events on node A to 'read' events on node B
-class Pipe extends HTMLElement {
+export class Pipe extends HTMLElement {
 
   constructor() {
     super();
-    this.id = `${Math.random().toString(16).slice(2)}`;
+    this._id = `${Math.random().toString(16).slice(2)}`;
   }
 
   connectedCallback() {
     this.setAttribute('id', this._id);
     this.innerText = "pipe";
+    window.pipe = this;
   }
 
   disconnectedCallback() {
@@ -20,10 +21,10 @@ class Pipe extends HTMLElement {
 
   connect(conn) {
     const { input, output } = conn;
-    const read = receive.bind(input);
-    const write = send.bind(output);
-    this.close = read('write', (...data) => {
-      write('read', ...data);
+    const read = receive.bind(null, input, 'write');
+    const write = send.bind(null, output, 'read');
+    this.close = read((...data) => {
+      write(...data);
     });
   }
 

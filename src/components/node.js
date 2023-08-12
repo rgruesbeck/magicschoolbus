@@ -1,7 +1,16 @@
-import { send, receive } from '../utils.js';
+import { send, receive, evalInContext } from '../utils.js';
 
-// eval in a context
-// https://stackoverflow.com/questions/8403108/calling-eval-in-particular-context
+// unix pipeline history
+// https://www.youtube.com/watch?v=bKzonnwoR2I
+
+// sockets, pipes, files
+// https://www.youtube.com/watch?v=il4N6KjVQ-s
+
+// custom code
+const func = (a, b) => {
+  return a + b;
+};
+
 
 // Node has an input and an output
 // reads intput with 'read' events
@@ -10,40 +19,35 @@ export class Node extends HTMLElement {
   constructor() {
     super();
     this._id = `${Math.random().toString(16).slice(2)}`;
-    this.self = this;
+    this._write = send.bind(null, this, 'write');
+    const read = receive.bind(null, this, 'read');
+    this._close = read((...data) => {
+      this.read(...data);
+    });
   }
 
   connectedCallback() {
     this.setAttribute('id', this._id);
     this.innerText = "node";
-
-    const read = receive.bind(this.self);
-    const close = read('read', (...data) => {
-      this.read(...data);
-    });
-
-    /*
-    const read = receive.bind(this);
-    this.close = read('read', (...data) => {
-      this.read(...data);
-    });
-    this._write = send.bind(this);
-    */
+    window.nodes ? window.nodes.push(this) : window.nodes = [this];
+    this._js = `(${func})(...this.args)`;
   }
 
   disconnectedCallback() {
-    this.close();
+    this._close();
   }
 
   // read incoming message
   read(...data) {
-    console.log('node: read', ...data);
+    console.log(`node-${this._id}: read`, ...data);
+    const res = evalInContext(this._js, { args: [...data] });
+    this.write(res);
   }
 
   // write message
   write(...data) {
-    console.log('node: write', ...data);
-    this._write('write', ...data);
+    console.log(`node-${this._id}: write`, ...data);
+    this._write(...data);
   }
 }
 

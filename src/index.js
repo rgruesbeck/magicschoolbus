@@ -17,16 +17,24 @@ import { Node } from './components/node.js'
 const bootstrap = () => {
   customElements.define('c-bus', MessageBus);
   customElements.define('c-node', Node);
+  customElements.define('c-pipe', Pipe);
 
   const bus = document.createElement('c-bus');
   bus.id = "mainbus";
   document.body.appendChild(bus);
 
-  const node = document.createElement('c-node');
-  node.busid ="mainbus";
-  document.body.appendChild(node);
+  const nodea = document.createElement('c-node');
+  document.body.appendChild(nodea);
 
-  console.log('bootstrap!', bus, node);
+  const nodeb = document.createElement('c-node');
+  document.body.appendChild(nodeb);
+
+  const pipe = document.createElement('c-pipe');
+  document.body.appendChild(pipe);
+
+  console.log(bus, nodea, nodeb, pipe);
+  pipe.connect({ input: nodea, output: nodeb });
+  nodea.write(2, 10);
 }
 
 setTimeout(() => {

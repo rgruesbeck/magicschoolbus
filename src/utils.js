@@ -1,23 +1,28 @@
 
-export const send = (topic, ...rest) => {
+export const send = (node, topic, ...rest) => {
   // create and dispatch event
   const event = new CustomEvent(topic, {
     detail: [...rest]
   });
-  this.dispatchEvent(event);
+  node.dispatchEvent(event);
 }
 
-export const receive = (topic, callBack) => {
+export const receive = (node, topic, callBack) => {
     // create wrapper for callback
     const wrapper = (event) => {
       const { detail } = event;
       callBack(...detail);
     };
-    this.addEventListener(topic, wrapper);
+    node.addEventListener(topic, wrapper);
 
     // return unsubscribe handler
     return () => {
-      this.removeEventListener(topic, wrapper);
+      node.removeEventListener(topic, wrapper);
     };
 }
 
+// eval in a context
+// https://stackoverflow.com/questions/8403108/calling-eval-in-particular-context
+export const evalInContext = (js, context) => {
+  return function() { return eval(js); }.call(context);
+}
