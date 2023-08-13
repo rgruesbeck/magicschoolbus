@@ -20,9 +20,7 @@ export class Pipe extends HTMLElement {
   }
 
   connectedCallback() {
-    window.pipe = this;
     this.setAttribute('id', this._id);
-    this.innerText = "pipe";
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
